@@ -15,15 +15,15 @@ This test suite will test the endpoints from the Postman documentation. The foll
 A single test run is divided into 3 parts.
 
 After each test part is run, you are expected to handle the entities that have been created in your warehouse system (receiving ASN, fulfilling an order, cancelling an order,...), prior to running the next test part:
-|Test Part|Details|
-|:--:|--|
-|1|<ul><li>Get Product Details</li><li>Create Product</li><li>Update Product</li><li>Get Asn Status</li><li>Create ASN</li></ul>|
-|After 1|<ul><li>Receive Asn Partially</li><li>Receive Asn Completely</li><li>Generate Inventory Movements (damaged, return, receive)</li></ul>|
-|2|<ul><li>Get ASN Status</li><li>Get Inventory Movements</li><li>Get Inventory Status</li><li>Create Shipments</li></ul>|
-|After 2|<ul><li>Fulfill orders (shipment)</li><li>Cancel a shipment</li></ul>|
-|3|<ul><li>Get Inventory Status</li><li>Get Shipment Status</li><ul>|
-|After 3|<ul><li>Mark damaged units</li><ul>|
-|4|<ul><li>Get Inventory Movements</li><ul>|
+| Test Part | Details |
+| :--: | -- |
+| 1 |<ul><li>Get Product Details</li><li>Create Product</li><li>Update Product</li><li>Get Asn Status</li><li>Create ASN</li></ul>|
+| After 1 |<ul><li>Receive Asn Partially</li><li>Receive Asn Completely</li><li>Generate Inventory Movements (damaged, return, receive)</li></ul>|
+| 2 |<ul><li>Get ASN Status</li><li>Get Inventory Movements</li><li>Get Inventory Status</li><li>Create Shipments</li></ul>|
+| After 2 |<ul><li>Fulfill orders (shipment)</li><li>Cancel a shipment</li></ul>|
+| 3 |<ul><li>Get Inventory Status</li><li>Get Shipment Status</li><ul>|
+| After 3 |<ul><li>Mark damaged units</li><ul>|
+| 4 |<ul><li>Get Inventory Movements</li><ul>|
 
 ## How to run tests
 1. Clone the repository: `git clone git@github.com:deliverr/warehouse-deliverr-tests.git`
