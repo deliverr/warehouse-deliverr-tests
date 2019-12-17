@@ -15,6 +15,7 @@ This test suite will test the endpoints from the Postman documentation. The foll
 A single test run is divided into 3 parts.
 
 After each test part is run, you are expected to handle the entities that have been created in your warehouse system (receiving ASN, fulfilling an order, cancelling an order,...), prior to running the next test part:
+
 | Test Part | Details |
 | :--: | -- |
 | 1 |<ul><li>Get Product Details</li><li>Create Product</li><li>Update Product</li><li>Get Asn Status</li><li>Create ASN</li></ul>|
