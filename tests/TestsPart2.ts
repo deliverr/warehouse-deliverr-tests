@@ -11,7 +11,6 @@ describe("WarehouseTests", () => {
   let auth: AxiosBasicCredentials;
   let axios: AxiosInstance;
   let currentDate: string;
-  let currentUnix: number;
 
   beforeAll(() => {
     serviceUrl = ENV.SERVICE_URL;
@@ -23,7 +22,7 @@ describe("WarehouseTests", () => {
     currentDate = moment().format("YYYY-MM-DDTHH:mm:ssZ");
   });
 
-  describe("GetAsnStatus - 200 qty 1 unreceived", async () => {
+  it("GetAsnStatus - 200 qty 1 unreceived", async () => {
     const asnId: number = Number.parseInt(`1${testRun}`);
     const asn = {
       "deliverrAsnId": asnId,
@@ -54,7 +53,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(asn);
   });
 
-  describe("GetAsnStatus - 200 qty 10 partially received", async () => {
+  it("GetAsnStatus - 200 qty 10 partially received", async () => {
     const asnId: number = Number.parseInt(`10${testRun}`);
     const asn = {
       "deliverrAsnId": asnId,
@@ -85,7 +84,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(asn);
   });
 
-  describe("GetAsnStatus - 200 qty 5 fully received", async () => {
+  it("GetAsnStatus - 200 qty 5 fully received", async () => {
     const asnId: number = Number.parseInt(`5${testRun}`);
     const asn = {
       "deliverrAsnId": asnId,
@@ -112,7 +111,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(asn);
   });
 
-  describe("GetInventoryStatus - 200", async () => {
+  it("GetInventoryStatus - 200", async () => {
     const expectedResponse = {
       sku: `HELLOKITTY${testRun}`,
       warehouse,
@@ -132,12 +131,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(expectedResponse);
   });
 
-  describe("GetInventoryMovements - 200", async () => {
-    const expectedResponse = {
-      sku: `HELLOKITTY${testRun}`,
-      warehouse,
-      inventoryOnHand: 10
-    };
+  it("GetInventoryMovements - 200", async () => {
     const response: AxiosResponse = await axios.request({
       method: "get",
       url: serviceUrl,
@@ -154,7 +148,7 @@ describe("WarehouseTests", () => {
     expect(helloKittyReceives).toHaveLength(2);
   });
 
-  describe("CreateShipment - 201 do not fulfill", async () => {
+  it("CreateShipment - 201 do not fulfill", async () => {
     const shipmentId: number = Number.parseInt(`1${testRun}`);
     const shipment = {
       "deliverrShipmentId": shipmentId,
@@ -194,7 +188,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(shipment);
   });
 
-  describe("CreateShipment - 201", async () => {
+  it("CreateShipment - 201", async () => {
     const shipmentId: number = Number.parseInt(`2${testRun}`);
     const shipment = {
       "deliverrShipmentId": shipmentId,
@@ -234,7 +228,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(shipment);
   });
 
-  describe("CreateShipment - 201 with carrierAccount", async () => {
+  it("CreateShipment - 201 with carrierAccount", async () => {
     const shipmentId: number = Number.parseInt(`3${testRun}`);
     const shipment = {
       "deliverrShipmentId": shipmentId,
@@ -275,7 +269,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(shipment);
   });
 
-  describe("CreateShipment - 201 warehouse to cancel", async () => {
+  it("CreateShipment - 201 warehouse to cancel", async () => {
     const shipmentId: number = Number.parseInt(`4${testRun}`);
     const shipment = {
       "deliverrShipmentId": shipmentId,
@@ -315,7 +309,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(shipment);
   });
 
-  describe("CreateShipment - 201 api to cancel", async () => {
+  it("CreateShipment - 201 api to cancel", async () => {
     const shipmentId: number = Number.parseInt(`5${testRun}`);
     const shipment = {
       "deliverrShipmentId": shipmentId,
@@ -355,7 +349,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(shipment);
   });
 
-  describe("CreateShipment - 204 cancel shipment", async () => {
+  it("CreateShipment - 204 cancel shipment", async () => {
     const shipmentId: number = Number.parseInt(`5${testRun}`);
     const response: AxiosResponse = await axios.request({
       method: "delete",

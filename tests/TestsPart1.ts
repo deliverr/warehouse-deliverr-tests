@@ -10,7 +10,7 @@ describe("WarehouseTests", () => {
   let testRun: Number;
   let auth: AxiosBasicCredentials;
   let axios: AxiosInstance;
-  let currentDate;
+  let currentDate: string;
 
   beforeAll(() => {
     serviceUrl = ENV.SERVICE_URL;
@@ -22,7 +22,7 @@ describe("WarehouseTests", () => {
     currentDate = moment().format("YYYY-MM-DDTHH:mm:ssZ");
   });
 
-  describe("GetProductDetails - 404 not found", async () => {
+  it("GetProductDetails - 404 not found", async () => {
     const dsku: string = `HELLOKITTY${testRun}`;
     const response: AxiosResponse = await axios.request({
       method: "get",
@@ -38,13 +38,13 @@ describe("WarehouseTests", () => {
     expect(response.data).toBeUndefined();
   });
 
-  describe("CreateProductDetails - 201", async () => {
+  it("CreateProductDetails - 201", async () => {
     const dsku: string = `HELLOKITTY${testRun}`;
     const product = {
       "product": {
         "sku": dsku,
         "name": dsku,
-        "description": `${dsku} likes apples`,
+        "description": `${dsku} likes HELLOKITTY`,
         "cost": 13,
         "weight": 5.2,
         "length": 3,
@@ -73,7 +73,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(product);
   });
 
-  describe("CreateProductDetails - 409 duplicate sku", async () => {
+  it("CreateProductDetails - 409 duplicate sku", async () => {
     const dsku: string = `HELLOKITTY${testRun}`;
     const product = {
       "product": {
@@ -108,7 +108,7 @@ describe("WarehouseTests", () => {
     expect(response.data.error).toEqual("DUPLICATE_SKU");
   });
 
-  describe("CreateProductDetails - 409 duplicate barcode", async () => {
+  it("CreateProductDetails - 409 duplicate barcode", async () => {
     const dsku: string = `HELLOKITTY${testRun}`;
     const product = {
       "product": {
@@ -143,7 +143,7 @@ describe("WarehouseTests", () => {
     expect(response.data.error).toEqual("DUPLICATE_BARCODE");
   });
 
-  describe("CreateProductDetails - 409 missing barcode", async () => {
+  it("CreateProductDetails - 409 missing barcode", async () => {
     const dsku: string = `HELLOKITTY${testRun}`;
     const product = {
       "product": {
@@ -178,13 +178,13 @@ describe("WarehouseTests", () => {
     expect(response.data.error).toEqual("MISSING_BARCODE");
   });
 
-  describe("UpdateProductDetails - 200", async () => {
+  it("UpdateProductDetails - 200", async () => {
     const dsku: string = `HELLOKITTY${testRun}`;
     const product = {
       "product": {
         "sku": dsku,
         "name": dsku,
-        "description": `${dsku} likes apples`,
+        "description": `${dsku} likes HELLOKITTY`,
         "cost": 13,
         "weight": 5.2,
         "length": 3,
@@ -213,7 +213,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(product);
   });
 
-  describe("GetProductDetails - 200", async () => {
+  it("GetProductDetails - 200", async () => {
     const dsku: string = `HELLOKITTY${testRun}`;
     const response: AxiosResponse = await axios.request({
       method: "get",
@@ -229,7 +229,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual({
       "sku": dsku,
       "name": dsku,
-      "description": `${dsku} likes apples`,
+      "description": `${dsku} likes HELLOKITTY`,
       "cost": 13,
       "weight": 5.2,
       "length": 3,
@@ -244,7 +244,7 @@ describe("WarehouseTests", () => {
     });
   });
 
-  describe("GetAsn - 404 not found", async () => {
+  it("GetAsn - 404 not found", async () => {
     const asnId: Number = Number.parseInt(`5${testRun}`);
     const response: AxiosResponse = await axios.request({
       method: "get",
@@ -260,7 +260,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toBeUndefined();
   });
 
-  describe("CreateAsn - 201 qty 1", async () => {
+  it("CreateAsn - 201 qty 1", async () => {
     const asnId: number = Number.parseInt(`1${testRun}`);
     const asn = {
       "deliverrAsnId": asnId,
@@ -290,7 +290,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(asn);
   });
 
-  describe("CreateAsn - 201 qty 5", async () => {
+  it("CreateAsn - 201 qty 5", async () => {
     const asnId: number = Number.parseInt(`5${testRun}`);
     const asn = {
       "deliverrAsnId": asnId,
@@ -321,7 +321,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(asn);
   });
 
-  describe("CreateAsn - 201 qty 10", async () => {
+  it("CreateAsn - 201 qty 10", async () => {
     const asnId: number = Number.parseInt(`10${testRun}`);
     const asn = {
       "deliverrAsnId": asnId,

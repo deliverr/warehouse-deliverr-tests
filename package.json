@@ -4,10 +4,11 @@
   "description": "A test suite for 3PLs to run and test their Deliverr integration",
   "main": "index.js",
   "scripts": {
-    "test1": "npm run lint && jest TestPart1 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit",
-    "test2": "npm run lint && jest TestPart2 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit",
-    "test3": "npm run lint && jest TestPart3 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit",
-    "test4": "npm run lint && jest TestPart4 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit",
+    "build": "tsc",
+    "test1": "jest TestPart1 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit",
+    "test2": "jest TestPart2 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit",
+    "test3": "jest TestPart3 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit",
+    "test4": "jest TestPart4 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   "homepage": "https://github.com/deliverr/warehouse-deliverr-tests#readme",
   "dependencies": {
     "@types/dotenv": "^8.2.0",
+    "@types/qs": "^6.9.0",
     "axios": "^0.19.0",
     "dotenv": "^8.2.0",
     "jest": "^24.9.0",

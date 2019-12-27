@@ -1,5 +1,4 @@
 import { AxiosBasicCredentials, AxiosInstance, AxiosResponse } from "axios";
-import * as moment from "moment";
 import * as Qs from "qs";
 import ENV from "../util/env";
 describe("WarehouseTests", () => {
@@ -10,8 +9,6 @@ describe("WarehouseTests", () => {
   let testRun: Number;
   let auth: AxiosBasicCredentials;
   let axios: AxiosInstance;
-  let currentDate: string;
-  let currentUnix: number;
 
   beforeAll(() => {
     serviceUrl = ENV.SERVICE_URL;
@@ -20,10 +17,9 @@ describe("WarehouseTests", () => {
     warehouse = ENV.WAREHOUSE_ID;
     testRun = ENV.TEST_RUN;
     auth = { username, password };
-    currentDate = moment().format("YYYY-MM-DDTHH:mm:ssZ");
   });
 
-  describe("GetShipmentStatus - 201 processing", async () => {
+  it("GetShipmentStatus - 201 processing", async () => {
     const shipmentId: number = Number.parseInt(`1${testRun}`);
     const status = {
       "deliverrShipmentId": shipmentId,
@@ -44,7 +40,7 @@ describe("WarehouseTests", () => {
     expect(response.data).toEqual(status);
   });
 
-  describe("GetShipmentStatus - 201 shipped", async () => {
+  it("GetShipmentStatus - 201 shipped", async () => {
     const shipmentId: number = Number.parseInt(`2${testRun}`);
     const items = [{
       "dsku": "HELLOKITTY",
@@ -71,7 +67,7 @@ describe("WarehouseTests", () => {
     expect(response.data.shippedPackages[0].items).toEqual(items);
   });
 
-  describe("GetShipmentStatus - 201 shipped", async () => {
+  it("GetShipmentStatus - 201 shipped", async () => {
     const shipmentId: number = Number.parseInt(`3${testRun}`);
     const items = [{
       "dsku": "HELLOKITTY",
@@ -98,7 +94,7 @@ describe("WarehouseTests", () => {
     expect(response.data.shippedPackages[0].items).toEqual(items);
   });
 
-  describe("GetShipmentStatus - 201 warehouse cancelled", async () => {
+  it("GetShipmentStatus - 201 warehouse cancelled", async () => {
     const shipmentId: number = Number.parseInt(`4${testRun}`);
     const response: AxiosResponse = await axios.request({
       method: "get",
@@ -115,7 +111,7 @@ describe("WarehouseTests", () => {
     expect(response.data.status).toEqual("CANCELLED");
   });
 
-  describe("GetShipmentStatus - 201 api cancelled", async () => {
+  it("GetShipmentStatus - 201 api cancelled", async () => {
     const shipmentId: number = Number.parseInt(`5${testRun}`);
     const response: AxiosResponse = await axios.request({
       method: "get",
@@ -132,7 +128,7 @@ describe("WarehouseTests", () => {
     expect(response.data.status).toEqual("CANCELLED");
   });
 
-  describe("GetInventoryStatus - 200", async () => {
+  it("GetInventoryStatus - 200", async () => {
     const expectedResponse = {
       sku: `HELLOKITTY${testRun}`,
       warehouse,
