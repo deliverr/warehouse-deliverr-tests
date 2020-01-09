@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test1": "jest TestPart1 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit",
-    "test2": "jest TestPart2 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit",
-    "test3": "jest TestPart3 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit",
-    "test4": "jest TestPart4 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit"
+    "test1": "jest TestsPart1 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit --detectOpenHandles",
+    "test2": "jest TestsPart2 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit",
+    "test3": "jest TestsPart3 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit",
+    "test4": "jest TestsPart4 --runInBand --silent --testPathIgnorePatterns dist/* --forceExit"
   },
   "repository": {
     "type": "git",
@@ -20,19 +20,42 @@
     "url": "https://github.com/deliverr/warehouse-deliverr-tests/issues"
   },
   "homepage": "https://github.com/deliverr/warehouse-deliverr-tests#readme",
+  "jest": {
+    "automock": false,
+    "testEnvironment": "node",
+    "transform": {
+      ".(ts)": "ts-jest"
+    },
+    "testRegex": "(\\.(ispec|uspec))\\.(ts)$",
+    "roots": [
+      "<rootDir>/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.ts"
+    ],
+    "setupFiles": [
+      "<rootDir>/env-setup.js"
+    ]
+  },
   "dependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/qs": "^6.9.0",
-    "axios": "^0.19.0",
-    "dotenv": "^8.2.0",
-    "jest": "^24.9.0",
+    "axios": "^0.18.1",
     "moment": "^2.24.0",
-    "qs": "^6.9.1",
-    "typescript": "^3.7.3"
+    "qs": "^6.9.1"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/jest": "^24.0.23",
-    "@types/node": "^12.12.16"
+    "@types/node": "^12.12.22",
+    "dotenv": "^8.2.0",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.3"
   }
 }
