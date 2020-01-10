@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "*": ["types/*"] },
+    "module": "commonjs",
+    "target": "es2017",
+    "lib": [ "es2017"],
+    "moduleResolution": "node",
+    "rootDir": "./",
+    "sourceMap": true,
+    "allowJs": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "exclude": [ 
+    "node_modules", 
+    "build", 
+    "src/**/*.uspec.ts",
+    "src/**/*.ispec.ts",
+    "dist"
+  ],
+  "types": [ "typePatches" ]
+}

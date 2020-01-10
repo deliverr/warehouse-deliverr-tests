@@ -1,29 +1,29 @@
-import { AxiosBasicCredentials, AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosBasicCredentials, AxiosInstance, AxiosResponse } from "axios";
 import * as moment from "moment";
-import * as Qs from "qs";
-import ENV from "../util/env";
-describe("WarehouseTests", () => {
-  let serviceUrl: string;
+
+import { resolve } from "path"
+import { config } from "dotenv"
+config({ path: resolve(__dirname, "../.env") })
+describe("WarehouseTests2", () => {
+  let baseURL: string;
   let username: string;
   let password: string;
   let warehouse: string;
   let testRun: Number;
-  let auth: AxiosBasicCredentials;
-  let axios: AxiosInstance;
+  let ax: AxiosInstance;
   let currentDate: string;
-  let currentUnix: number;
 
   beforeAll(() => {
-    serviceUrl = ENV.SERVICE_URL;
-    username = ENV.BASIC_AUTH_USERNAME;
-    password = ENV.BASIC_AUTH_PASSWORD;
-    warehouse = ENV.WAREHOUSE_ID;
-    testRun = ENV.TEST_RUN;
-    auth = { username, password };
+    baseURL = process.env.SERVICE_URL || "";
+    username = process.env.USERNAME || "";
+    password = process.env.PASSWORD || "";
+    warehouse = process.env.WAREHOUSE_ID || "";
+    testRun = Number(process.env.TEST_RUN);
+    ax = axios.create({ baseURL, auth: { username, password }, withCredentials: true, responseType: "json", headers: {"Accept":"application/json"}});
     currentDate = moment().format("YYYY-MM-DDTHH:mm:ssZ");
   });
 
-  describe("GetAsnStatus - 200 qty 1 unreceived", async () => {
+  it("GetAsnStatus - 200 qty 1 unreceived", async () => {
     const asnId: number = Number.parseInt(`1${testRun}`);
     const asn = {
       "deliverrAsnId": asnId,
@@ -40,21 +40,17 @@ describe("WarehouseTests", () => {
         }
       ]
     }
-    const response: AxiosResponse = await axios.request({
+    const res = await ax.request({
       method: "get",
-      url: serviceUrl,
-      auth,
-      params: `/asn`,
-      paramsSerializer(params) {
-        return Qs.stringify(params, { arrayFormat: "repeat" });
-      }
-    }).then(res => res);
+      url: `/asn`
+    }).then(res => res)
+      .catch(e => e);
 
-    expect(response.status).toEqual(200);
-    expect(response.data).toEqual(asn);
+    expect(res.response.status).toEqual(200);
+    expect(res.response.data).toEqual(asn);
   });
 
-  describe("GetAsnStatus - 200 qty 10 partially received", async () => {
+  it("GetAsnStatus - 200 qty 10 partially received", async () => {
     const asnId: number = Number.parseInt(`10${testRun}`);
     const asn = {
       "deliverrAsnId": asnId,
@@ -71,21 +67,17 @@ describe("WarehouseTests", () => {
         }
       ]
     }
-    const response: AxiosResponse = await axios.request({
+    const res = await ax.request({
       method: "get",
-      url: serviceUrl,
-      auth,
-      params: `/asn`,
-      paramsSerializer(params) {
-        return Qs.stringify(params, { arrayFormat: "repeat" });
-      }
-    }).then(res => res);
+      url: `/asn`,
+    }).then(res => res)
+      .catch(e => e);
 
-    expect(response.status).toEqual(200);
-    expect(response.data).toEqual(asn);
+    expect(res.response.status).toEqual(200);
+    expect(res.response.data).toEqual(asn);
   });
 
-  describe("GetAsnStatus - 200 qty 5 fully received", async () => {
+  it("GetAsnStatus - 200 qty 5 fully received", async () => {
     const asnId: number = Number.parseInt(`5${testRun}`);
     const asn = {
       "deliverrAsnId": asnId,
@@ -98,63 +90,46 @@ describe("WarehouseTests", () => {
         }
       ]
     }
-    const response: AxiosResponse = await axios.request({
+    const res = await ax.request({
       method: "get",
-      url: serviceUrl,
-      auth,
-      params: `/asn`,
-      paramsSerializer(params) {
-        return Qs.stringify(params, { arrayFormat: "repeat" });
-      }
-    }).then(res => res);
+      url: `/asn`,
+    }).then(res => res)
+      .catch(e => e);
 
-    expect(response.status).toEqual(200);
-    expect(response.data).toEqual(asn);
+    expect(res.response.status).toEqual(200);
+    expect(res.response.data).toEqual(asn);
   });
 
-  describe("GetInventoryStatus - 200", async () => {
+  it("GetInventoryStatus - 200", async () => {
     const expectedResponse = {
       sku: `HELLOKITTY${testRun}`,
       warehouse,
       inventoryOnHand: 10
     };
-    const response: AxiosResponse = await axios.request({
+    const res = await ax.request({
       method: "get",
-      url: serviceUrl,
-      auth,
-      params: `/inventory?sku=HELLOKITTY${testRun}&warehouse=${warehouse}`,
-      paramsSerializer(params) {
-        return Qs.stringify(params, { arrayFormat: "repeat" });
-      }
-    }).then(res => res);
+      url: `/inventory?sku=HELLOKITTY${testRun}&warehouse=${warehouse}`,
+    }).then(res => res)
+      .catch(e => e);
 
-    expect(response.status).toEqual(200);
-    expect(response.data).toEqual(expectedResponse);
+    expect(res.response.status).toEqual(200);
+    expect(res.response.data).toEqual(expectedResponse);
   });
 
-  describe("GetInventoryMovements - 200", async () => {
-    const expectedResponse = {
-      sku: `HELLOKITTY${testRun}`,
-      warehouse,
-      inventoryOnHand: 10
-    };
-    const response: AxiosResponse = await axios.request({
+  it("GetInventoryMovements - 200", async () => {
+    const res = await ax.request({
       method: "get",
-      url: serviceUrl,
-      auth,
-      params: `/inventory/movements?warehouse=${warehouse}&fromTime=${moment(currentDate).subtract(3, 
+      url: `/inventory/movements?warehouse=${warehouse}&fromTime=${moment(currentDate).subtract(3, 
         "hours").format("YYYY-MM-DDTHH:mm:ssZ")}&toTime=${moment(currentDate).format("YYYY-MM-DDTHH:mm:ssZ")}`,
-      paramsSerializer(params) {
-        return Qs.stringify(params, { arrayFormat: "repeat" });
-      }
-    }).then(res => res);
-    const helloKittyReceives = response.data.filter((data: any) => data.movementType === "RECEIVE" && data.sku === `HELLOKITTY${testRun}`);
+    }).then(res => res)
+      .catch(e => e);
+    const helloKittyReceives = res.response.data.filter((data: any) => data.movementType === "RECEIVE" && data.sku === `HELLOKITTY${testRun}`);
 
-    expect(response.status).toEqual(200);
+    expect(res.response.status).toEqual(200);
     expect(helloKittyReceives).toHaveLength(2);
   });
 
-  describe("CreateShipment - 201 do not fulfill", async () => {
+  it("CreateShipment - 201 do not fulfill", async () => {
     const shipmentId: number = Number.parseInt(`1${testRun}`);
     const shipment = {
       "deliverrShipmentId": shipmentId,
@@ -179,22 +154,18 @@ describe("WarehouseTests", () => {
       "notes": "do not fulfill",
       warehouse
     };
-    const response: AxiosResponse = await axios.request({
+    const res = await ax.request({
       method: "post",
-      url: serviceUrl,
       data: shipment,
-      auth,
-      params: `/shipment`,
-      paramsSerializer(params) {
-        return Qs.stringify(params, { arrayFormat: "repeat" });
-      }
-    }).then(res => res);
+      url: `/shipment`,
+    }).then(res => res)
+      .catch(e => e);
 
-    expect(response.status).toEqual(200);
-    expect(response.data).toEqual(shipment);
+    expect(res.response.status).toEqual(200);
+    expect(res.response.data).toEqual(shipment);
   });
 
-  describe("CreateShipment - 201", async () => {
+  it("CreateShipment - 201", async () => {
     const shipmentId: number = Number.parseInt(`2${testRun}`);
     const shipment = {
       "deliverrShipmentId": shipmentId,
@@ -219,22 +190,18 @@ describe("WarehouseTests", () => {
       "notes": "fulfill this order with a tracking id",
       warehouse
     };
-    const response: AxiosResponse = await axios.request({
+    const res = await ax.request({
       method: "post",
-      url: serviceUrl,
       data: shipment,
-      auth,
-      params: `/shipment`,
-      paramsSerializer(params) {
-        return Qs.stringify(params, { arrayFormat: "repeat" });
-      }
-    }).then(res => res);
+      url: `/shipment`,
+    }).then(res => res)
+      .catch(e => e);
 
-    expect(response.status).toEqual(200);
-    expect(response.data).toEqual(shipment);
+    expect(res.response.status).toEqual(200);
+    expect(res.response.data).toEqual(shipment);
   });
 
-  describe("CreateShipment - 201 with carrierAccount", async () => {
+  it("CreateShipment - 201 with carrierAccount", async () => {
     const shipmentId: number = Number.parseInt(`3${testRun}`);
     const shipment = {
       "deliverrShipmentId": shipmentId,
@@ -260,22 +227,18 @@ describe("WarehouseTests", () => {
       warehouse,
       "carrierAccount": "908245393"
     };
-    const response: AxiosResponse = await axios.request({
+    const res = await ax.request({
       method: "post",
-      url: serviceUrl,
       data: shipment,
-      auth,
-      params: `/shipment`,
-      paramsSerializer(params) {
-        return Qs.stringify(params, { arrayFormat: "repeat" });
-      }
-    }).then(res => res);
+      url: `/shipment`,
+    }).then(res => res)
+      .catch(e => e);
 
-    expect(response.status).toEqual(200);
-    expect(response.data).toEqual(shipment);
+    expect(res.response.status).toEqual(200);
+    expect(res.response.data).toEqual(shipment);
   });
 
-  describe("CreateShipment - 201 warehouse to cancel", async () => {
+  it("CreateShipment - 201 warehouse to cancel", async () => {
     const shipmentId: number = Number.parseInt(`4${testRun}`);
     const shipment = {
       "deliverrShipmentId": shipmentId,
@@ -300,22 +263,18 @@ describe("WarehouseTests", () => {
       "notes": "cancel this order",
       warehouse
     };
-    const response: AxiosResponse = await axios.request({
+    const res = await ax.request({
       method: "post",
-      url: serviceUrl,
       data: shipment,
-      auth,
-      params: `/shipment`,
-      paramsSerializer(params) {
-        return Qs.stringify(params, { arrayFormat: "repeat" });
-      }
-    }).then(res => res);
+      url: `/shipment`,
+    }).then(res => res)
+      .catch(e => e);
 
-    expect(response.status).toEqual(200);
-    expect(response.data).toEqual(shipment);
+    expect(res.response.status).toEqual(200);
+    expect(res.response.data).toEqual(shipment);
   });
 
-  describe("CreateShipment - 201 api to cancel", async () => {
+  it("CreateShipment - 201 to cancel via api", async () => {
     const shipmentId: number = Number.parseInt(`5${testRun}`);
     const shipment = {
       "deliverrShipmentId": shipmentId,
@@ -340,34 +299,26 @@ describe("WarehouseTests", () => {
       "notes": "",
       warehouse
     };
-    const response: AxiosResponse = await axios.request({
+    const res = await ax.request({
       method: "post",
-      url: serviceUrl,
       data: shipment,
-      auth,
       params: `/shipment`,
-      paramsSerializer(params) {
-        return Qs.stringify(params, { arrayFormat: "repeat" });
-      }
-    }).then(res => res);
+    }).then(res => res)
+      .catch(e => e);
 
-    expect(response.status).toEqual(200);
-    expect(response.data).toEqual(shipment);
+    expect(res.response.status).toEqual(200);
+    expect(res.response.data).toEqual(shipment);
   });
 
-  describe("CreateShipment - 204 cancel shipment", async () => {
+  it("CreateShipment - 204 cancel shipment", async () => {
     const shipmentId: number = Number.parseInt(`5${testRun}`);
-    const response: AxiosResponse = await axios.request({
+    const res = await ax.request({
       method: "delete",
-      url: serviceUrl,
-      auth,
       params: `/shipment/${shipmentId}`,
-      paramsSerializer(params) {
-        return Qs.stringify(params, { arrayFormat: "repeat" });
-      }
-    }).then(res => res);
+    }).then(res => res)
+      .catch(e => e);
 
-    expect(response.status).toEqual(204);
-    expect(response.data).toBeUndefined();
+    expect(res.response.status).toEqual(204);
+    expect(res.response.data).toBeUndefined();
   });
 });

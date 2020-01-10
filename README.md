@@ -12,7 +12,7 @@ This test suite will test the endpoints from the Postman documentation. The foll
 - `TEST_RUN` the i<sup>th</sup> run of the tests
 
 ## Tests
-A single test run is divided into 3 parts.
+A single test run is divided into 4 parts.
 
 After each test part is run, you are expected to handle the entities that have been created in your warehouse system (receiving ASN, fulfilling an order, cancelling an order,...), prior to running the next test part:
 
@@ -28,7 +28,7 @@ After each test part is run, you are expected to handle the entities that have b
 
 ## How to run tests
 1. Clone the repository: `git clone git@github.com:deliverr/warehouse-deliverr-tests.git`
-2. Fill in `.env`. `TEST_RUN` is a number that has not yet been used before, starting at `0`
+2. Fill in `.env`. `TEST_RUN` is a number that has not yet been used before, starting at `0`. For every new test run (after going through all test parts), increment this by 1 so that it can be tracked in the warehouse's system.
 3. Run Tests Part 1: `npm run test1`
 4. In your warehouse system, fully receive the ASN that has expected quantity of 5 units, and receive 5 units of the ASN that has expected quantity of 10. Do not receive the ASN that has quantity of 1 unit.
 5. Run Test Part 2: `npm run test2`
