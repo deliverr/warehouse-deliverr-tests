@@ -12,7 +12,7 @@ This test suite will test the endpoints from the Postman documentation. The foll
 - `TEST_RUN` the i<sup>th</sup> run of the tests
 
 ## Tests
-A single test run is divided into 3 parts.
+A single test run is divided into 4 parts.
 
 After each test part is run, you are expected to handle the entities that have been created in your warehouse system (receiving ASN, fulfilling an order, cancelling an order,...), prior to running the next test part:
 
