@@ -1,4 +1,5 @@
 /* tslint:disable */ 
+jest.setTimeout(90000); //Setting a higher timeout value for jest is important otherwise it times out before tests are complete.
 import axios, { AxiosInstance } from "axios";
 import * as moment from "moment";
 import { resolve } from "path"
@@ -16,7 +17,7 @@ describe("WarehouseTests1", () => {
 
   beforeAll(() => {
     baseURL = process.env.SERVICE_URL || "";
-    username = process.env.USERNAME || "";
+    username = process.env.APIUSER || ""; //See .env file for explanation
     password = process.env.PASSWORD || "";
     warehouseId = process.env.WAREHOUSE_ID || "";
     testRun = Number(process.env.TEST_RUN);
@@ -60,9 +61,10 @@ describe("WarehouseTests1", () => {
       data: product,
     }).then(res => res)
       .catch(e => e);
-
-    expect(res.response.data).toEqual(product);
-    expect(res.response.status).toEqual(201);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.data).toEqual(product);
+    expect(res.status).toEqual(201);
   });
 
   it("CreateProductDetails - 409 duplicate sku", async () => {
@@ -179,9 +181,10 @@ describe("WarehouseTests1", () => {
       data: product,
     }).then(res => res)
     .catch(e => e);
-
-    expect(res.response.status).toEqual(201);
-    expect(res.response.data).toEqual(product);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.status).toEqual(201);
+    expect(res.data).toEqual(product);
   });
 
   it("GetProductDetails - 200", async () => {
@@ -193,8 +196,10 @@ describe("WarehouseTests1", () => {
       .catch(e => e);
     
 
-    expect(res.status).toEqual(200);
-    expect(res.response.data).toEqual({
+    expect(res.status).toEqual(200)
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.data).toEqual({
       "sku": dsku,
       "name": dsku,
       "description": `${dsku} likes HELLOKITTY`,
@@ -244,9 +249,10 @@ describe("WarehouseTests1", () => {
       url: `/asn`,
     }).then(res => res)
       .catch(e => e);
-
-    expect(res.response.status).toEqual(200);
-    expect(res.response.data).toEqual(asn);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.status).toEqual(200);
+    expect(res.data).toEqual(asn);
   });
 
   it("CreateAsn - 201 qty 5", async () => {
@@ -271,9 +277,10 @@ describe("WarehouseTests1", () => {
       url: `/asn`,
     }).then(res => res)
     .catch(e => e);
-
-    expect(res.response.status).toEqual(200);
-    expect(res.response.data).toEqual(asn);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.status).toEqual(200);
+    expect(res.data).toEqual(asn);
   });
 
   it("CreateAsn - 201 qty 10", async () => {
@@ -297,8 +304,9 @@ describe("WarehouseTests1", () => {
       url: `/asn`,
     }).then(res => res)
     .catch(e => e);
-
-    expect(res.response.status).toEqual(200);
-    expect(res.response.data).toEqual(asn);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.status).toEqual(200);
+    expect(res.data).toEqual(asn);
   });
 });

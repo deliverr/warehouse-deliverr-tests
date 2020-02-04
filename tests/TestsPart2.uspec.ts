@@ -1,4 +1,5 @@
-import axios, { AxiosBasicCredentials, AxiosInstance, AxiosResponse } from "axios";
+jest.setTimeout(90000); //Setting a higher timeout value for jest is important otherwise it times out before tests are complete.
+import axios, { AxiosInstance } from "axios"; // Removed Unused imports. Nodejs in strict mode generates warnings for unused imports.
 import * as moment from "moment";
 
 import { resolve } from "path"
@@ -15,7 +16,7 @@ describe("WarehouseTests2", () => {
 
   beforeAll(() => {
     baseURL = process.env.SERVICE_URL || "";
-    username = process.env.USERNAME || "";
+    username = process.env.APIUSER || ""; //See .env file for explanation
     password = process.env.PASSWORD || "";
     warehouse = process.env.WAREHOUSE_ID || "";
     testRun = Number(process.env.TEST_RUN);
@@ -27,13 +28,15 @@ describe("WarehouseTests2", () => {
     const asnId: number = Number.parseInt(`1${testRun}`);
     const asn = {
       "deliverrAsnId": asnId,
-      "createdDate": currentDate,
+      //CreatedDate timestamp is the time when CreateAsn test was run in TestPart1.uspec.ts file. It cannot match the timestamp of this test in this file.
+      //So if we keep this property in the object, the test will never succeed. We need to remove it from test.
+      //"createdDate": currentDate,
       "expectedDate": null,
       "shipToWarehouse": warehouse,
       "notes": "",
       "items": [
         {
-          "sku": `HELLOKITTY${currentDate}`,
+          "sku": `HELLOKITTY${testRun}`,//It should be testRun value since that was passed in when CreateAsn test was done. Not CurrentDate.
           "quantityExpected": 1,
           "quantityReceived": 0,
           "quantityStocked": 0
@@ -42,25 +45,29 @@ describe("WarehouseTests2", () => {
     }
     const res = await ax.request({
       method: "get",
-      url: `/asn`
+      url: `/asn/${asnId}`//Request URL cannot be complete without asnId at the end
     }).then(res => res)
       .catch(e => e);
 
-    expect(res.response.status).toEqual(200);
-    expect(res.response.data).toEqual(asn);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.status).toEqual(200);
+    expect(res.data).toEqual(asn);
   });
 
   it("GetAsnStatus - 200 qty 10 partially received", async () => {
     const asnId: number = Number.parseInt(`10${testRun}`);
     const asn = {
       "deliverrAsnId": asnId,
-      "createdDate": currentDate,
+      //CreatedDate timestamp is the time when CreateAsn test was run in TestPart1.uspec.ts file. It cannot match the timestamp of this test in this file.
+      //So if we keep this property in the object, the test will never succeed. We need to remove it from test.
+      // "createdDate": currentDate,
       "expectedDate": null,
       "shipToWarehouse": warehouse,
       "notes": "",
       "items": [
         {
-          "sku": `HELLOKITTY${currentDate}`,
+          "sku": `HELLOKITTY${testRun}`,//It should be testRun value since that was passed in when CreateAsn test was done. Not CurrentDate.
           "quantityExpected": 10,
           "quantityReceived": 5,
           "quantityStocked": 5
@@ -69,12 +76,14 @@ describe("WarehouseTests2", () => {
     }
     const res = await ax.request({
       method: "get",
-      url: `/asn`,
+      url: `/asn/${asnId}`,//Request URL cannot be complete withou asnId at the end
     }).then(res => res)
       .catch(e => e);
 
-    expect(res.response.status).toEqual(200);
-    expect(res.response.data).toEqual(asn);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.status).toEqual(200);
+    expect(res.data).toEqual(asn);
   });
 
   it("GetAsnStatus - 200 qty 5 fully received", async () => {
@@ -83,7 +92,7 @@ describe("WarehouseTests2", () => {
       "deliverrAsnId": asnId,
       "items": [
         {
-          "sku": `HELLOKITTY${currentDate}`,
+          "sku": `HELLOKITTY${testRun}`,//It should be testRun value since that was passed in when CreateAsn test was done. Not CurrentDate.
           "quantityExpected": 5,
           "quantityReceived": 5,
           "quantityStocked": 5
@@ -92,12 +101,14 @@ describe("WarehouseTests2", () => {
     }
     const res = await ax.request({
       method: "get",
-      url: `/asn`,
+      url: `/asn/${asnId}`,//Request URL cannot be complete withou asnId at the end
     }).then(res => res)
       .catch(e => e);
 
-    expect(res.response.status).toEqual(200);
-    expect(res.response.data).toEqual(asn);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+     expect(res.status).toEqual(200);
+     expect(res.data).toEqual(asn);
   });
 
   it("GetInventoryStatus - 200", async () => {
@@ -112,8 +123,10 @@ describe("WarehouseTests2", () => {
     }).then(res => res)
       .catch(e => e);
 
-    expect(res.response.status).toEqual(200);
-    expect(res.response.data).toEqual(expectedResponse);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.status).toEqual(200);
+    expect(res.data).toEqual(expectedResponse);
   });
 
   it("GetInventoryMovements - 200", async () => {
@@ -123,9 +136,11 @@ describe("WarehouseTests2", () => {
         "hours").format("YYYY-MM-DDTHH:mm:ssZ")}&toTime=${moment(currentDate).format("YYYY-MM-DDTHH:mm:ssZ")}`,
     }).then(res => res)
       .catch(e => e);
-    const helloKittyReceives = res.response.data.filter((data: any) => data.movementType === "RECEIVE" && data.sku === `HELLOKITTY${testRun}`);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    const helloKittyReceives = res.data.filter((data: any) => data.movementType === "RECEIVE" && data.sku === `HELLOKITTY${testRun}`);
 
-    expect(res.response.status).toEqual(200);
+    expect(res.status).toEqual(200);
     expect(helloKittyReceives).toHaveLength(2);
   });
 
@@ -146,7 +161,7 @@ describe("WarehouseTests2", () => {
       "shippingMethod": "FEDEX.GROUND",
       "lineItems": [
         {
-          "sku": "HELLOKITTY",
+		  "sku": `HELLOKITTY${testRun}`,//testRun value must be appended since that was passed in when Item was created.
           "quantity": 1
         }
       ],
@@ -161,8 +176,10 @@ describe("WarehouseTests2", () => {
     }).then(res => res)
       .catch(e => e);
 
-    expect(res.response.status).toEqual(200);
-    expect(res.response.data).toEqual(shipment);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.status).toEqual(200);
+    expect(res.data).toEqual(shipment);
   });
 
   it("CreateShipment - 201", async () => {
@@ -182,7 +199,7 @@ describe("WarehouseTests2", () => {
       "shippingMethod": "FEDEX.GROUND",
       "lineItems": [
         {
-          "sku": "HELLOKITTY",
+		  "sku": `HELLOKITTY${testRun}`,//testRun value must be appended since that was passed in when Item was created.
           "quantity": 1
         }
       ],
@@ -197,8 +214,10 @@ describe("WarehouseTests2", () => {
     }).then(res => res)
       .catch(e => e);
 
-    expect(res.response.status).toEqual(200);
-    expect(res.response.data).toEqual(shipment);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.status).toEqual(200);
+    expect(res.data).toEqual(shipment);
   });
 
   it("CreateShipment - 201 with carrierAccount", async () => {
@@ -218,7 +237,7 @@ describe("WarehouseTests2", () => {
       "shippingMethod": "FEDEX.HOME.DELIVERY",
       "lineItems": [
         {
-          "sku": "HELLOKITTY",
+		  "sku": `HELLOKITTY${testRun}`,//testRun value must be appended since that was passed in when Item was created.
           "quantity": 1
         }
       ],
@@ -234,8 +253,10 @@ describe("WarehouseTests2", () => {
     }).then(res => res)
       .catch(e => e);
 
-    expect(res.response.status).toEqual(200);
-    expect(res.response.data).toEqual(shipment);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.status).toEqual(200);
+    expect(res.data).toEqual(shipment);
   });
 
   it("CreateShipment - 201 warehouse to cancel", async () => {
@@ -255,7 +276,7 @@ describe("WarehouseTests2", () => {
       "shippingMethod": "FEDEX.GROUND",
       "lineItems": [
         {
-          "sku": "HELLOKITTY",
+		  "sku": `HELLOKITTY${testRun}`,//testRun value must be appended since that was passed in when Item was created.
           "quantity": 1
         }
       ],
@@ -270,8 +291,10 @@ describe("WarehouseTests2", () => {
     }).then(res => res)
       .catch(e => e);
 
-    expect(res.response.status).toEqual(200);
-    expect(res.response.data).toEqual(shipment);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.status).toEqual(200);
+    expect(res.data).toEqual(shipment);
   });
 
   it("CreateShipment - 201 to cancel via api", async () => {
@@ -291,7 +314,7 @@ describe("WarehouseTests2", () => {
       "shippingMethod": "FEDEX.GROUND",
       "lineItems": [
         {
-          "sku": "HELLOKITTY",
+		  "sku": `HELLOKITTY${testRun}`,//testRun value must be appended since that was passed in when Item was created.
           "quantity": 1
         }
       ],
@@ -302,23 +325,27 @@ describe("WarehouseTests2", () => {
     const res = await ax.request({
       method: "post",
       data: shipment,
-      params: `/shipment`,
+      url: `/shipment`,//For delete request, we need to set URL not parameter.
     }).then(res => res)
       .catch(e => e);
 
-    expect(res.response.status).toEqual(200);
-    expect(res.response.data).toEqual(shipment);
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+    expect(res.status).toEqual(200);
+    expect(res.data).toEqual(shipment);
   });
 
   it("CreateShipment - 204 cancel shipment", async () => {
     const shipmentId: number = Number.parseInt(`5${testRun}`);
     const res = await ax.request({
       method: "delete",
-      params: `/shipment/${shipmentId}`,
+      url: `/shipment/${shipmentId}`,//For delete request, we need to set shipmentId as URL not as a parameter.
     }).then(res => res)
       .catch(e => e);
 
-    expect(res.response.status).toEqual(204);
-    expect(res.response.data).toBeUndefined();
+    // In case of success, res object from axios request does not have a response property.
+    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
+	expect(res.status).toEqual(204);
+    expect(res.data).toEqual("");	//We cannot send undefined data with 204 status
   });
 });
