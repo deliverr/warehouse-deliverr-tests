@@ -34,7 +34,7 @@ describe("WarehouseTests2", () => {
       "expectedDate": null,
       "shipToWarehouse": warehouse,
       "notes": "",
-      "items": [
+      "asnItems": [
         {
           "sku": `HELLOKITTY${testRun}`,//It should be testRun value since that was passed in when CreateAsn test was done. Not CurrentDate.
           "quantityExpected": 1,
@@ -65,7 +65,7 @@ describe("WarehouseTests2", () => {
       "expectedDate": null,
       "shipToWarehouse": warehouse,
       "notes": "",
-      "items": [
+      "asnItems": [
         {
           "sku": `HELLOKITTY${testRun}`,//It should be testRun value since that was passed in when CreateAsn test was done. Not CurrentDate.
           "quantityExpected": 10,
@@ -90,7 +90,7 @@ describe("WarehouseTests2", () => {
     const asnId: number = Number.parseInt(`5${testRun}`);
     const asn = {
       "deliverrAsnId": asnId,
-      "items": [
+      "asnItems": [
         {
           "sku": `HELLOKITTY${testRun}`,//It should be testRun value since that was passed in when CreateAsn test was done. Not CurrentDate.
           "quantityExpected": 5,

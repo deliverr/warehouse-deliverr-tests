@@ -236,7 +236,7 @@ describe("WarehouseTests1", () => {
       "expectedDate": futureDate,
       "shipToWarehouse": warehouseId,
       "notes": "",
-      "items": [
+      "asnItems": [
         {
           "sku": `HELLOKITTY${testRun}`,
           "quantityExpected": 1
@@ -264,7 +264,7 @@ describe("WarehouseTests1", () => {
       "shipToWarehouse": warehouseId,
       "trackingNumber": "12345",
       "notes": "",
-      "items": [
+      "asnItems": [
         {
           "sku": `HELLOKITTY${testRun}`,
           "quantityExpected": 5
@@ -291,7 +291,7 @@ describe("WarehouseTests1", () => {
       "expectedDate": futureDate,
       "shipToWarehouse": warehouseId,
       "notes": "",
-      "items": [
+      "asnItems": [
         {
           "sku": `HELLOKITTY${testRun}`,
           "quantityExpected": 10
