@@ -50,7 +50,6 @@ describe("WarehouseTests2", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(200);
     expect(res.data).toEqual(asn);
   });
@@ -81,7 +80,6 @@ describe("WarehouseTests2", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(200);
     expect(res.data).toEqual(asn);
   });
@@ -106,7 +104,6 @@ describe("WarehouseTests2", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
      expect(res.status).toEqual(200);
      expect(res.data).toEqual(asn);
   });
@@ -124,7 +121,6 @@ describe("WarehouseTests2", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(200);
     expect(res.data).toEqual(expectedResponse);
   });
@@ -137,7 +133,6 @@ describe("WarehouseTests2", () => {
     }).then(res => res)
       .catch(e => e);
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     const helloKittyReceives = res.data.filter((data: any) => data.movementType === "RECEIVE" && data.sku === `HELLOKITTY${testRun}`);
 
     expect(res.status).toEqual(200);
@@ -177,7 +172,6 @@ describe("WarehouseTests2", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(200);
     expect(res.data).toEqual(shipment);
   });
@@ -215,7 +209,6 @@ describe("WarehouseTests2", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(200);
     expect(res.data).toEqual(shipment);
   });
@@ -254,7 +247,6 @@ describe("WarehouseTests2", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(200);
     expect(res.data).toEqual(shipment);
   });
@@ -292,7 +284,6 @@ describe("WarehouseTests2", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(200);
     expect(res.data).toEqual(shipment);
   });
@@ -330,7 +321,6 @@ describe("WarehouseTests2", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(200);
     expect(res.data).toEqual(shipment);
   });
@@ -344,7 +334,6 @@ describe("WarehouseTests2", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
 	expect(res.status).toEqual(204);
     expect(res.data).toEqual("");	//We cannot send undefined data with 204 status
   });

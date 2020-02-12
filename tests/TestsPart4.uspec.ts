@@ -34,7 +34,6 @@ describe("WarehouseTests4", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(201);
     expect(res.data).toEqual(status);
   });
@@ -52,7 +51,6 @@ describe("WarehouseTests4", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(201);
     expect(res.data.deliverrShipmentId).toEqual(shipmentId);
     expect(res.data.status).toEqual("SHIPPED");
@@ -77,7 +75,6 @@ describe("WarehouseTests4", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(201);
     expect(res.data.deliverrShipmentId).toEqual(shipmentId);
     expect(res.data.status).toEqual("SHIPPED");
@@ -98,7 +95,6 @@ describe("WarehouseTests4", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(201);
     expect(res.data.deliverrShipmentId).toEqual(shipmentId);
     expect(res.data.status).toEqual("CANCELLED");
@@ -113,13 +109,12 @@ describe("WarehouseTests4", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(201);
     expect(res.data.deliverrShipmentId).toEqual(shipmentId);
     expect(res.data.status).toEqual("CANCELLED");
   });
 
-  it("GetInventoryStatus - 200", async () => { //@NOTE need to update system before this
+  it("GetInventoryStatus - 200", async () => {
     const expectedResponse = {
       sku: `HELLOKITTY${testRun}`,
       warehouse,
@@ -132,7 +127,6 @@ describe("WarehouseTests4", () => {
       .catch(e => e);
 
     // In case of success, res object from axios request does not have a response property.
-    // data and status properties are directly available on res object hence 'res.response' is replaced with 'res'.
     expect(res.status).toEqual(200);
     expect(res.data).toEqual(expectedResponse);
   });
