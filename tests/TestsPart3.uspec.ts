@@ -37,12 +37,30 @@ describe("WarehouseTests3", () => {
     expect(res.status).toEqual(201);
     expect(res.data).toEqual(status);
   });
+  
+  it("GetShipmentStatus - 201 processing", async () => {
+    const shipmentId: number = Number.parseInt(`1${testRun}`);
+    const status = {
+      "deliverrShipmentId": shipmentId,
+      "status": "PROCESSING",
+      "shippedPackages": []
+    };
+    const res = await ax.request({
+      method: "get",
+      url: `/shipment/${shipmentId}`
+    }).then(res => res)
+      .catch(e => e);
 
-  it("GetShipmentStatus - 201 shipped", async () => {				//@NOTE for shipped, status in shipments-table must be 1, so need to set before run this
+    expect(res.status).toEqual(201);
+    expect(res.data).toEqual(status);
+  });
+
+
+  it("GetShipmentStatus - 201 shipped", async () => {
     const shipmentId: number = Number.parseInt(`2${testRun}`);
     const items = [{
-      "sku": `HELLOKITTY${testRun}`,//property name is 'sku' not 'dsku'. testRun value must be appended since that was passed in when Item was created.
-      "quantity": 1//Property name when saving shipment is 'quantity' not 'qty'.
+      "sku": `HELLOKITTY${testRun}`,
+      "quantity": 1
     }];
     const res = await ax.request({
       method: "get",
@@ -50,7 +68,6 @@ describe("WarehouseTests3", () => {
     }).then(res => res)
       .catch(e => e);
 
-    // In case of success, res object from axios request does not have a response property.
     expect(res.status).toEqual(201);
     expect(res.data.deliverrShipmentId).toEqual(shipmentId);
     expect(res.data.status).toEqual("SHIPPED");

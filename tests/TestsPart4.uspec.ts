@@ -20,24 +20,6 @@ describe("WarehouseTests4", () => {
     ax = axios.create({ baseURL, auth: { username, password }, withCredentials: true, responseType: "json", headers: {"Accept":"application/json"}});
   });
 
-  it("GetShipmentStatus - 201 processing", async () => {
-    const shipmentId: number = Number.parseInt(`1${testRun}`);
-    const status = {
-      "deliverrShipmentId": shipmentId,
-      "status": "PROCESSING",
-      "shippedPackages": []
-    };
-    const res = await ax.request({
-      method: "get",
-      url: `/shipment/${shipmentId}`
-    }).then(res => res)
-      .catch(e => e);
-
-    // In case of success, res object from axios request does not have a response property.
-    expect(res.status).toEqual(201);
-    expect(res.data).toEqual(status);
-  });
-
   it("GetShipmentStatus - 201 shipped", async () => {				//@NOTE for shipped, status in shipments-table must be 1, so need to set before run this
     const shipmentId: number = Number.parseInt(`2${testRun}`);
     const items = [{
